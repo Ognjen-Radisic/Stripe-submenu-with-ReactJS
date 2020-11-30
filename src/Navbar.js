@@ -7,8 +7,13 @@ const Navbar = () => {
   const { openSidebar, openSubmenu, closeSubmenu } = useGlobalContext()
 
   const displaySubmenu = (e) => {
-    e.preventDefault()
-    openSubmenu()
+    const page = e.target.textContent
+    const tempBtn = e.target.getBoundingClientRect()
+
+    //2 coordinates for positionig submenu
+    const center = (tempBtn.left + tempBtn.right) / 2
+    const bottom = tempBtn.bottom - 3
+    openSubmenu(page, { center, bottom })
   }
 
   return (
@@ -16,7 +21,7 @@ const Navbar = () => {
       <div className='nav-center'>
         <div className='nav-header'>
           <img src={logo} alt='stripe' />
-          <button className='btn toggle-btn' onClick={displaySubmenu}>
+          <button className='btn toggle-btn' onClick={openSidebar}>
             <FaBars />
           </button>
         </div>
@@ -33,7 +38,7 @@ const Navbar = () => {
             </button>
           </li>
           <li>
-            <button className='link-btn' onMouseOver={openSubmenu}>
+            <button className='link-btn' onMouseOver={displaySubmenu}>
               company
             </button>
           </li>
