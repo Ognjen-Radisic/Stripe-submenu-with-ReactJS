@@ -1,8 +1,12 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useRef, useEffect } from 'react'
 import { useGlobalContext } from './context'
 
 const Submenu = () => {
-  const { isSubmenuOpen, location } = useGlobalContext()
+  const {
+    isSubmenuOpen,
+    location,
+    page: { page, links },
+  } = useGlobalContext()
   const container = useRef(null)
   useEffect(() => {
     const submenuCoordinates = container.current
@@ -17,7 +21,18 @@ const Submenu = () => {
       className={`${isSubmenuOpen ? 'submenu show' : 'submenu'}`}
       ref={container}
     >
-      submenu component
+      <h4>{page}</h4>
+      <article className={`submenu-center col-${links.length}`}>
+        {links.map((link, index) => {
+          const { url, icon, label } = link
+          return (
+            <a key={index} href={url}>
+              {icon}
+              {label}
+            </a>
+          )
+        })}
+      </article>
     </aside>
   )
 }
